@@ -1,0 +1,24 @@
+{
+    "tasks": [
+        {
+            "label": "build traceroute",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "main.c",
+                "send.c",
+                "recive.c",
+                "-o",
+                "traceroute"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Kompilowanie plików C w VSCode"
+        }
+    ],
+    "version": "2.0.0"
+}

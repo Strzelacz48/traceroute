@@ -1,6 +1,6 @@
 #include "header.h"
 
-int receive_reply(int sockfd, struct sockaddr_in *recv_addr, struct timeval *start_time, int ttl, struct icmphdr *dest_header) {
+int receive_reply(int sockfd, struct sockaddr_in *recv_addr, struct timeval *start_time, int ttl, struct sockaddr_in *dest_addr) {
     socklen_t addr_len = sizeof(*recv_addr);
     char recv_buf[512];
     struct sockaddr_in recvd_addrss[3];
@@ -22,18 +22,8 @@ int receive_reply(int sockfd, struct sockaddr_in *recv_addr, struct timeval *sta
                 total_time += ((end.tv_sec - start_time->tv_sec) * 1000.0) + ((end.tv_usec - start_time->tv_usec) / 1000.0);
                 recvd_addrss[received] = *recv_addr;
 
-                //rozpakowujemy headera z pakietu
-                struct ip *ip_header = (struct ip*) recv_buf;
-                ssize_t offset = 4 * (ssize_t) ip_header->ip_hl;
-
-                struct icmphdr *header = (struct icmphdr*) (recv_buf + offset);
-
-                printf("%d %d %d %d\n",dest_header->un.echo.id, header->un.echo.id, dest_header->un.echo.sequence, header->un.echo.sequence);
-                // Compare ICMP identifiers
-                if (dest_header->un.echo.id == header->un.echo.id && dest_header->un.echo.sequence/PACKETS_PER_STAGE == header->un.echo.sequence/PACKETS_PER_STAGE) {
-                    printf("%s ", inet_ntoa(recvd_addrss[received].sin_addr));
-                    received++;
-                }
+                printf("%s ", inet_ntoa(recvd_addrss[received].sin_addr));
+                received++;
             }
         } else {
             break;

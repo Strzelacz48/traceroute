@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
         gettimeofday(&start_time, NULL);
         
         struct icmphdr dest_header = send_request(sockfd, &dest_addr, ttl);
-        receive_reply(sockfd, &recv_addr, &start_time, ttl, &dest_header);
+        receive_reply(sockfd, &recv_addr, &start_time, ttl, &dest_addr);
         
         if (recv_addr.sin_addr.s_addr == dest_addr.sin_addr.s_addr) {
             break;
