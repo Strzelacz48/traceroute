@@ -23,7 +23,8 @@ void ERROR(const char* str);
 // void print_as_bytes(unsigned char* buff, ssize_t length);
 // int is_valid_ip(const char *ip);
 u_int16_t compute_icmp_checksum(const void *buff, int length);
-struct icmphdr send_request(int sockfd, struct sockaddr_in *dest_addr, int ttl);
+void send_request(int sockfd, struct sockaddr_in *dest_addr, int ttl, int pid);
 int receive_reply(int sockfd, struct sockaddr_in *recv_addr, struct timeval *start_time, int ttl, struct sockaddr_in *dest_header);
+void send3requests(int sockfd, struct sockaddr_in *dest_addr, int ttl, int pid);
 
 #endif

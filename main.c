@@ -19,13 +19,15 @@ int main(int argc, char *argv[]) {
     
     struct timeval timeout = {TIMEOUT, 0};//sekunda na czekanie
     setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
-    
+    int pid = getpid();
+
     struct sockaddr_in recv_addr;
     for (int ttl = 1; ttl <= MAX_HOPS; ttl++) {
         struct timeval start_time;
         gettimeofday(&start_time, NULL);
         
-        struct icmphdr dest_header = send_request(sockfd, &dest_addr, ttl);
+        // struct icmphdr dest_header = 
+        send3requests(sockfd, &dest_addr, ttl, pid);
         receive_reply(sockfd, &recv_addr, &start_time, ttl, &dest_addr);
         
         if (recv_addr.sin_addr.s_addr == dest_addr.sin_addr.s_addr) {

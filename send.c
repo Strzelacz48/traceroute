@@ -25,19 +25,21 @@ u_int16_t compute_icmp_checksum(const void *buff, int length) {
     return ~(sum + (sum >> 16U));
 }
 
-struct icmphdr send_request(int sockfd, struct sockaddr_in *dest_addr, int ttl) {
+void send_request(int sockfd, struct sockaddr_in *dest_addr, int ttl, int pid) {
     struct icmphdr icmp_hdr;
-    memset(&icmp_hdr, 0, sizeof(icmp_hdr));
     icmp_hdr.type = ICMP_ECHO;
     icmp_hdr.code = 0;
-    icmp_hdr.un.echo.id = getpid();
-    
+    icmp_hdr.un.echo.id = pid;
+    icmp_hdr.un.echo.sequence = PACKETS_PER_STAGE * (ttl - 1);
+	icmp_hdr.checksum = 0;// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ALE TO JEST GŁUPIE GODZINA DEBUGA PRZEZ TO ŻE CHECKSUM DODAWAĆ NIE UMIE BEZ ZERA
+    icmp_hdr.checksum = compute_icmp_checksum((uint16_t*)&icmp_hdr, sizeof(icmp_hdr));
     setsockopt(sockfd, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl));
+    if (sendto(sockfd, &icmp_hdr, sizeof(icmp_hdr), 0, (struct sockaddr *)dest_addr, sizeof(*dest_addr)) < 0){
+        ERROR("sendto error ");
+    };
+}
 
-    for (int i = 0; i < PACKETS_PER_STAGE; i++) {
-        icmp_hdr.un.echo.sequence = PACKETS_PER_STAGE * (ttl - 1) + i;
-        icmp_hdr.checksum = compute_icmp_checksum(&icmp_hdr, sizeof(icmp_hdr));
-        sendto(sockfd, &icmp_hdr, sizeof(icmp_hdr), 0, (struct sockaddr *)dest_addr, sizeof(*dest_addr));
-    }
-    return icmp_hdr;
+void send3requests(int sockfd, struct sockaddr_in *dest_addr, int ttl, int pid){
+    for (int i = 0; i < PACKETS_PER_STAGE; i++) 
+        send_request(sockfd, dest_addr, ttl, pid);
 }
