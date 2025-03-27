@@ -1,11 +1,9 @@
 #include "header.h"
-
 //324279 Marcin Czapulak
-
 int main(int argc, char *argv[]) {
     //sprawdzanie ilości argumentów
     if (argc != 2) {
-        fprintf(stderr, "Usage: %s <IP addres >\n", argv[0]);//Nie uzywam ERROR bo argv[0], łatwiej zrobić wyjątek
+        fprintf(stderr, "Usage: %s <IP addres >\n", argv[0]); //Nie uzywam ERROR bo argv[0], łatwiej zrobić wyjątek
         return EXIT_FAILURE;
     }
     
@@ -28,10 +26,9 @@ int main(int argc, char *argv[]) {
         gettimeofday(&start_time, NULL);
         
         send3requests(sockfd, &dest_addr, ttl, pid);
-        receive_reply(sockfd, &recv_addr, &start_time, ttl);
-        
+        uint8_t reached_and_printed = receive_reply(sockfd, &recv_addr, &start_time, ttl, pid);
         //jeśli doszliśmy do celu wyjdź z pętli
-        if (recv_addr.sin_addr.s_addr == dest_addr.sin_addr.s_addr) {
+        if (recv_addr.sin_addr.s_addr == dest_addr.sin_addr.s_addr && reached_and_printed > 0) {
             //printf("Destination reached\n");
             break;
         }

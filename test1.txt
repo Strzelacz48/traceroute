@@ -1,0 +1,16 @@
+traceroute to 94.23.242.48 (94.23.242.48), 30 hops max, 60 byte packets
+ 1  Strzelacz48-PC.mshome.net (172.26.80.1)  0.193 ms  0.219 ms *
+ 2  funbox.home (192.168.1.1)  1.329 ms  1.328 ms *
+ 3  wro-bng5.neo.tpnet.pl (83.1.5.134)  11.913 ms  11.997 ms  12.076 ms
+ 4  wro-r21.tpnet.pl (80.50.150.73)  5.788 ms  9.034 ms  9.033 ms
+ 5  195.116.35.198 (195.116.35.198)  15.306 ms  15.365 ms  15.491 ms
+ 6  be105.waw-wa2-pb1-nc5.pl.eu (54.36.50.78)  15.479 ms  11.879 ms *
+ 7  * * *
+ 8  * * *
+ 9  * * *
+10  fra-fr5-sbb2-nc5.de.eu (54.36.50.116)  34.043 ms * *
+11  be102.rbx-g4-nc5.fr.eu (54.36.50.233)  45.814 ms  41.629 ms  41.743 ms
+12  * * *
+13  * * *
+14  * * *
+15  tools.wikimedia.pl (94.23.242.48)  40.551 ms  40.550 ms  40.549 ms

@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "cstdlib": "c",
-        "header.h": "c"
+        "header.h": "c",
+        "time.h": "c",
+        "stdio.h": "c",
+        "socket.h": "c"
     }
 }
